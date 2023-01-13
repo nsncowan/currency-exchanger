@@ -6,30 +6,39 @@ import GetExchange from './get-exchange';
 async function exchangeRates() {
   const response = await GetExchange.exchangeRates();
   if (response.status) {
-    printExchange(response, currencies);
+    printExchange(response);
   } else {
-    printError(response, currencies);
+    //printError(response, currencies);
   }
 }
 
 
 
 
-function printExchange(apiResponse) {
+function printExchange(response) {
   let displayResults = document.querySelector('#displayResults');
-  let selectionArray = [];
+  let displayList = document.createElement('ul');
+  let apiMatchArray = [];
   let currencySelection = document.querySelectorAll('input[name=currency]:checked');
-  currencySelection.forEach(function(element) {
-    selectionArray.push(element);
-  })
-
+  for (const key in response.conversion_rates) {
+    if (currencySelection.includes(key)) {
+      apiMatchArray.push(key);
+    }
+  }
+  // console.log(apiMatchArray);
+  apiMatchArray.forEach(element => {
+    let newLi = document.createElement('li');
+    newLi.append(element);
+    displayList.append(newLi);
+  });
+  displayResults.append(displayList);
 }
 
 
 
 function handleForm(event) {
   event.preventDefault(); 
-
+  exchangeRates();
 }
 
 
