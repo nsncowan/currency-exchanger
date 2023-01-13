@@ -6,7 +6,6 @@ import GetExchange from './get-exchange';
 async function exchangeRates() {
   const response = await GetExchange.exchangeRates();
   if (response.result) {
-    console.log(response.conversion_rates.EUR);
     printExchange(response);
   } else {
     //printError(response, currencies);
@@ -18,20 +17,18 @@ async function exchangeRates() {
 
 function printExchange(response) {
   let displayResults = document.querySelector('#displayResults');
+  displayResults.innerText = null;
   let displayList = document.createElement('ul');
   
   let dollarAmount = parseInt(document.getElementById('dollarInput').value)
   let apiMatchArray = [];
   let checkboxes = document.querySelectorAll("input[type='checkbox']");
-  let currencySelection = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
-  console.log(currencySelection);
+  let selections = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
   for (const key in response.conversion_rates) {
-    if (currencySelection.includes(key)) {
+    if (selections.includes(key)) {
       apiMatchArray.push(`${key} : ${(dollarAmount * response.conversion_rates[key])}`);
     }
   }
-  console.log("api match array", apiMatchArray);
-  
   apiMatchArray.forEach(element => {
     let newLi = document.createElement('li');
     newLi.append(element);
