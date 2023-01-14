@@ -12,18 +12,18 @@ async function exchangeRates() {
   }
 }
 
-
-
-
 function printExchange(response) {
   let displayResults = document.querySelector('#displayResults');
   displayResults.innerText = null;
   let displayList = document.createElement('ul');
-  
-  let dollarAmount = parseInt(document.getElementById('dollarInput').value)
+  let dollarAmount = parseInt(document.getElementById('dollarInput').value);
   let apiMatchArray = [];
   let checkboxes = document.querySelectorAll("input[type='checkbox']");
   let selections = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+  if (selections.length > 5) {
+    displayResults.innerText = `Please select 5 or fewer currencies.`;
+  }
+  else {
   for (const key in response.conversion_rates) {
     if (selections.includes(key)) {
       apiMatchArray.push(`${key} : ${(dollarAmount * response.conversion_rates[key])}`);
@@ -36,16 +36,12 @@ function printExchange(response) {
   });
   displayResults.append(displayList);
 }
-
-
+}
 
 function handleForm(event) {
   event.preventDefault(); 
   exchangeRates();
 }
-
-
-
 
 window.addEventListener('load', function() {
   document.querySelector('form').addEventListener('submit', handleForm);
