@@ -8,7 +8,7 @@ async function exchangeRates() {
   if (response.result) {
     printExchange(response);
   } else {
-    //printError(response, currencies);
+    printError(response);
   }
 }
 
@@ -36,6 +36,10 @@ function printExchange(response) {
   });
   displayResults.append(displayList);
 }
+}
+
+function printError(response) {
+  displayResults.innerText = `${response.status} ${response.statusText}. We could not complete your conversions at this time.`;
 }
 
 function handleForm(event) {

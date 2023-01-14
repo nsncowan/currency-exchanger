@@ -10,6 +10,6 @@ export default class GetExchange {
       return jsonResponse;
     } catch(error) {
       return error;
-    }
+    };
   }
 }
