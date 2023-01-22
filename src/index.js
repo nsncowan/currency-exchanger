@@ -5,6 +5,7 @@ import GetExchange from './get-exchange';
 
 async function exchangeRates() {
   const response = await GetExchange.exchangeRates();
+  
   if (response.result) {
     printExchange(response);
   } else {
@@ -39,6 +40,7 @@ function printExchange(response) {
 }
 
 function printError(response) {
+  let displayResults = document.querySelector('#displayResults');
   displayResults.innerText = `${response.status} ${response.statusText}. We could not complete your conversions at this time.`;
 }
 
